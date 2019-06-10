@@ -1,6 +1,5 @@
 package server
 
-import java.io.{InputStream, OutputStream}
 
 import methods.ToopLanguageServer
 import org.eclipse.lsp4j.launch.LSPLauncher

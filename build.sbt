@@ -11,7 +11,7 @@ val webjars_play = "org.webjars" %% "webjars-play" % "2.6.3"
 val bootstrap = "org.webjars" % "bootstrap" % "4.1.0"
 val ace_builds = "org.webjars.bower" % "ace-builds" % "1.3.3"
 val jquery = "org.webjars" % "jquery" % "3.3.1"
-val lsp_scala = "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.7.2"
+val lsp_scala = "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.7.1"
 
 lazy val toopCore = (project in file("toop-core"))
   .settings(
@@ -65,7 +65,7 @@ lazy val toopLSP = (project in file("toop-lsp"))
     libraryDependencies ++= Seq(
       lsp_scala,
     ),
-    scalacOptions ++= defaultScalacOptions,
+    scalacOptions ++= defaultScalacOptions :+ "-target:jvm-1.8",
     Compile/mainClass := Some("server.Main")
   )
   .dependsOn(toopCore)

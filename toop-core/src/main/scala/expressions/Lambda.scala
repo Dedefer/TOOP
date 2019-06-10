@@ -6,7 +6,7 @@ package expressions
 case class Lambda(override val variable:Variable, override val body:Term) extends Quantifier[Lambda](variable, body) {
   override def create(variable: Variable, body: Term): Lambda = Lambda(variable, body)
 
-  override def toString = "(\\"+variable+"=>"+body+")"
+  override def toString = "(\\ "+variable+" => "+body+")"
 
   //lazy override val FV = body.FV - variable.name
 }
