@@ -1,7 +1,7 @@
-import play.sbt.PlayImport._
-import play.sbt.PlayScala
+// import play.sbt.PlayImport._
+// import play.sbt.PlayScala
 
-val scalaVersionValue = "2.12.6"
+val scalaVersionValue = "2.12.10"
 val defaultScalacOptions = Seq("-deprecation", "-encoding", "utf-8")
 
 val parserCombinators = "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.0"
@@ -12,6 +12,17 @@ val bootstrap = "org.webjars" % "bootstrap" % "4.1.0"
 val ace_builds = "org.webjars.bower" % "ace-builds" % "1.3.3"
 val jquery = "org.webjars" % "jquery" % "3.3.1"
 val lsp_scala = "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.7.1"
+val http4s = Seq(
+  "org.typelevel" %% "cats-effect" % "2.0.0",
+  "io.circe" %% "circe-core" % "0.11.1",
+  "io.circe" %% "circe-generic" % "0.11.1",
+  "io.circe" %% "circe-parser" % "0.11.1",
+  "org.http4s" %% "http4s-blaze-server" % "0.20.13",
+  "org.http4s" %% "http4s-circe" % "0.20.13",
+  "org.http4s" %% "http4s-dsl" % "0.20.13",
+  "org.http4s" %% "http4s-blaze-client" % "0.20.13",
+  "ch.qos.logback" % "logback-classic" % "1.2.3"
+)
 
 lazy val toopCore = (project in file("toop-core"))
   .settings(
@@ -41,7 +52,9 @@ lazy val toopWeb = (project in file("toop-web"))
     ),
     routesGenerator := InjectedRoutesGenerator,
     scalacOptions ++= defaultScalacOptions
-  ).enablePlugins(PlayScala).dependsOn(toopCore)
+  )
+  // .enablePlugins(PlayScala)
+  .dependsOn(toopCore)
 
 lazy val toopCli = (project in file("toop-cli"))
   .settings(
@@ -66,6 +79,17 @@ lazy val toopLSP = (project in file("toop-lsp"))
       lsp_scala,
     ),
     scalacOptions ++= defaultScalacOptions :+ "-target:jvm-1.8",
+    Compile/mainClass := Some("server.Main")
+  )
+  .dependsOn(toopCore)
+
+lazy val toopHTTP4S = (project in file("toop-http4s"))
+  .settings(
+    name := "toop-http4s",
+    version := "0.0.1",
+    scalaVersion := scalaVersionValue,
+    libraryDependencies ++= http4s,
+    scalacOptions ++= defaultScalacOptions :+ "-Ypartial-unification",
     Compile/mainClass := Some("server.Main")
   )
   .dependsOn(toopCore)
