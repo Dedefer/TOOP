@@ -22,7 +22,7 @@ object Parser extends StandardTokenParsers with ImplicitConversions with Packrat
 
   type P[+T] = Parser[T]
 
-  lazy val expr : PackratParser[Term] = {
+  lazy val expr : PackratParser[Term] = positioned {
 //    log(
       application | arithmetic | applicationOperand
 //    )("expr")
@@ -67,17 +67,20 @@ object Parser extends StandardTokenParsers with ImplicitConversions with Packrat
   }
 
 
-  lazy val lambda = {
+  lazy val lambda = positioned {
 //    log(
-      ("\\"~>ident)~("=>"~>expr) ^^ {case v~b => Lambda(Variable(v), b)}
+      ("\\"~>variable)~("=>"~>expr) ^^ {case v~b => Lambda(v, b)}
 //    )("lambda")
   } //| application
 
-  lazy val objectFormation = {
+  lazy val objectFormation = positioned {
 //    log(
       "["~>repsep(methodDefinition, ",")<~"]" ^^ {methods => ObjectFormation(methods.toMap)}
 //    )("objectFormation")
   }
+
+
+
 
   lazy val methodDefinition : P[(String, Term)] = {
 //    log(
@@ -85,22 +88,22 @@ object Parser extends StandardTokenParsers with ImplicitConversions with Packrat
 //    )("methodDefinition")
   }
 
-  lazy val const = {
+  lazy val const = positioned {
     //log(
       numericLit ^^ {n => Number(n.toInt)}
     //)("const")
   }
   //def application = expr~rep1{expr}
 
-  lazy val sigma = {
+  lazy val sigma = positioned {
     //log(
       ("@" ~> variable) ~ ("=>"~> expr ) ^^ Sigma
     //)("sigma")
   }
 
-  lazy val variable : P[Variable] = {
+  lazy val variable : P[Variable] = positioned {
 //    log(
-      ident ^^  {i => Variable(i)}
+      ident ^^ Variable
 //    )("variable")
   }
 

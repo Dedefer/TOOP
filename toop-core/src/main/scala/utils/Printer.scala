@@ -15,7 +15,7 @@ object Printer {
         val rec = print(sigma, "|" * prefix.length, false)
         s"$prefix$rec"
       })
-      
+
       s"${if (newStr) indent else ""}[\n${printedMehods.mkString("\n")}\n$indent]"
 
 

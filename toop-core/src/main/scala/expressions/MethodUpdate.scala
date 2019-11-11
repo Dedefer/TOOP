@@ -5,10 +5,7 @@ package expressions
  */
 case class MethodUpdate(obj:Term, label:String, method:Term) extends Term
 {
-  override def toString = "(" + (method match {
-    case _:Sigma => obj+"."+label+" <= "+method
-    case _ => obj+"."+label+" <= @ this => "+method
-  }) + ")"
+  override def productPrefix = s"${this.getClass.getSimpleName}$posOrEmpty"
 
   lazy override val FV = obj.FV union method.FV
 }

@@ -70,6 +70,7 @@ object Semantic {
   def eval(t:Term):Term = {
     def eval(t:Term, last:Term):Term = {
       val step = eval1(t)
+//      println(s"${step.getClass.getSimpleName}: ${last.getClass.getSimpleName}\n${step}")
       if (step eq last)
         last
       else

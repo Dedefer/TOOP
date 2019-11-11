@@ -6,7 +6,5 @@ package expressions
 case class Sigma(override val variable:Variable, override val body:Term) extends Quantifier[Sigma](variable, body) {
   override def create(variable: Variable, body: Term): Sigma = Sigma(variable, body)
 
-  override def toString  = "@ "+variable+" => "+body
-
-  //lazy override val FV = body.FV - variable.name
+  override def productPrefix = s"${this.getClass.getSimpleName}$posOrEmpty"
 }

@@ -8,8 +8,8 @@ trait Arithmetic extends Term {
 }
 
 case class Add(t1 : Term, t2 : Term) extends Arithmetic {
-  override def toString: String = "("+t1+" + "+t2+")"
+  override def productPrefix = s"${this.getClass.getSimpleName}$posOrEmpty"
 }
 case class Subtract(t1 : Term, t2 : Term) extends Arithmetic {
-  override def toString: String = "("+t1+" - "+t2+")"
+  override def productPrefix = s"${this.getClass.getSimpleName}$posOrEmpty"
 }
