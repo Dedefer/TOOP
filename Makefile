@@ -1,4 +1,4 @@
-HEROKU_APP=mephi-toop-backend
+HEROKU_APP=mephi-toop-api
 
 heroku_deploy: heroku_push heroku_release
 

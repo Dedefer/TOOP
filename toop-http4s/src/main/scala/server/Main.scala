@@ -4,6 +4,7 @@ import requests._
 import responses._
 
 import cats.effect._
+import cats.implicits._
 
 import io.circe._
 import io.circe.generic.auto._
@@ -31,7 +32,7 @@ object Main extends IOApp {
         } yield (processed)
     }.orNotFound
 
-    def run(args: List[String]): IO[Nothing] = {
+    def run(args: List[String]): IO[ExitCode] = {
         val port = args(0).toInt
 
         return BlazeServerBuilder[IO]
@@ -39,6 +40,7 @@ object Main extends IOApp {
             .withHttpApp(jsonApp)
             .resource
             .use(_ => IO.never)
+            .as(ExitCode.Success)
     }
 
 }
