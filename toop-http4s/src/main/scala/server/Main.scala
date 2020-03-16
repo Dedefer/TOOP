@@ -31,10 +31,14 @@ object Main extends IOApp {
         } yield (processed)
     }.orNotFound
 
-    def run(args: List[String]) =
-        BlazeServerBuilder[IO]
-        .bindHttp(8080)
-        .withHttpApp(jsonApp)
-        .resource
-        .use(_ => IO.never)
+    def run(args: List[String]): IO[Nothing] = {
+        val port = args(0).toInt
+
+        return BlazeServerBuilder[IO]
+            .bindHttp(port, "0.0.0.0")
+            .withHttpApp(jsonApp)
+            .resource
+            .use(_ => IO.never)
+    }
+
 }
